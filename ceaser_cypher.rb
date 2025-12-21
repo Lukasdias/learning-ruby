@@ -2,7 +2,7 @@ def shift_char(char, shift)
   if char >= 'a' && char <= 'z'
     # convert everyone into num
     # char = 'c' -> char.ord = 99
-    # convert interval from ASCII in to 0 - 26
+    # convert interval from ASCII in to 0 - 25
     # a -> 0 ; b -> 1 and so on
     # %26 is to make it circular
     # when shifting beyond the alphabet, the code must reset to the start again

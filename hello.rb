@@ -4,7 +4,7 @@ var = 3
 var = var + 5
 
 def foo(str)
-  p "sexxx #{str}"
+  p "teste #{str}"
 end
 
 foo(var)

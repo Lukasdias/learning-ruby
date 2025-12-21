@@ -14,4 +14,8 @@
     "rubyLsp.rubyVersionManager": {
         "identifier": "rbenv",
     },
+    "files.autoSave": "onFocusChange", // Optional: saves when you switch tabs
+    "[ruby]": {
+        "editor.defaultFormatter": "Shopify.ruby-lsp"
+    }
 }

@@ -6,11 +6,9 @@
     "code-runner.executorMap": {
         "ruby": "ruby"
     },
-    "editor.tabSize": 8,
     "code-runner.saveFileBeforeRun": true,
     "code-runner.saveAllFilesBeforeRun": true,
     "editor.formatOnSave": true,
-    "window.zoomLevel": 1,
     "rubyLsp.rubyVersionManager": {
         "identifier": "rbenv",
     },

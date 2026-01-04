@@ -1,14 +1,10 @@
 # Basic Entity of the tic-tac-toe
-# It stores his name
+# Stores player name and symbol
 class Player
-  attr_reader :name, :picked_symbol
+  attr_reader :name, :symbol
 
-  def initialize(name, picked_symbol)
+  def initialize(name, symbol)
     @name = name
-    @picked_symbol = picked_symbol
-  end
-
-  def play(game)
-    # do something
+    @symbol = symbol
   end
 end

@@ -1,94 +1,76 @@
-require "colorized_string"
 require_relative "player"
 
-# Core logic of the game
+# Core logic of the game - handles state and rules only
 class Game
-  attr_accessor :table, :player1, :player2
+  EMPTY = "-"
+  attr_accessor :table, :player1, :player2, :current_player
 
   def initialize
-    @table = Array.new(3) { Array.new(3, "-1") }
-  end
-
-  def start
-    puts "start"
+    @table = Array.new(3) { Array.new(3, EMPTY) }
+    @player1 = nil
+    @player2 = nil
+    @current_player = nil
   end
 
   def reset_game
-    self.table = Array.new(3) { Array.new(3, "-1") }
+    @table = Array.new(3) { Array.new(3, EMPTY) }
   end
 
-  def apply_turn(pos, symbol)
+  def do_move(row, col, symbol)
+    return false unless valid_move?(row, col)
+
+    @table[row][col] = symbol
+    true
   end
 
-  def print_cell_item(cell)
-    ColorizedString["#{cell} "].colorize(cell == "X" ? :red : :yellow)
+  def switch_player
+    @current_player = @current_player == @player1 ? @player2 : @player1
   end
 
-  def render_table
-    puts
-    table.each do |row|
-      puts row
-        .map { |cell| print_cell_item(cell) }
-        .join
+  def set_players(player1, player2)
+    @player1 = player1
+    @player2 = player2
+    @current_player = player1
+  end
+
+  def winner?
+    check_rows || check_columns || check_diagonals
+  end
+
+  def draw?
+    @table.flatten.none? { |cell| cell == EMPTY }
+  end
+
+  private
+
+  def valid_move?(row, col)
+    row.between?(0, 2) && col.between?(0, 2) && @table[row][col] == EMPTY
+  end
+
+  def check_rows
+    @table.each do |row|
+      return true if row.uniq.length == 1 && row[0] != EMPTY
     end
+    false
   end
 
-  def do_move(move, player)
-    # check if move is possible
-    # check if player is ok
-    # check if move trigger win(full col, full row or full diagonal )
-    # just return something ifs good
+  def check_columns
+    (0..2).each do |col|
+      column = [@table[0][col], @table[1][col], @table[2][col]]
+      return true if column.uniq.length == 1 && column[0] != EMPTY
+    end
+    false
   end
 
-  def create_players
-    # render some fancy ui using colorize
+  def check_diagonals
+    # main diagonal (top-left to bottom-right)
+    main_diagonal = [@table[0][0], @table[1][1], @table[2][2]]
+    return true if main_diagonal.uniq.length == 1 && main_diagonal[0] != EMPTY
 
-    puts ColorizedString["--- Tic Tac Toe Player Creation ---"].colorize(:blue)
-    player1_username = ""
-    player1_symbol = ""
-    player2_username = ""
-    player2_symbol = ""
+    # anti-diagonal (top-right to bottom-left)
+    anti_diagonal = [@table[0][2], @table[1][1], @table[2][0]]
+    return true if anti_diagonal.uniq.length == 1 && anti_diagonal[0] != EMPTY
 
-    loop do
-      puts
-      print "Enter username for player 1: "
-      player1_username = gets.chomp
-      if player1_username.nil?
-        puts("Invalid username")
-        redo
-      end
-      print "Enter the player 1 symbol(X or O): "
-      player1_symbol = gets.chomp.upcase
-      if player1_symbol != "X" && player1_symbol != "O"
-        puts("Invalid symbol, please use either X or O")
-        redo
-      end
-      break
-    end
-
-    loop do
-      puts
-      print "Enter username for player 2: "
-      player2_username = gets.chomp
-      if player2_username.nil?
-        print("Invalid username")
-        redo
-      end
-      player2_symbol = player1_symbol == "X" ? "O" : "X"
-      print "Player 1 selected #{player1_symbol}, in this case, your symbol will be #{player2_symbol}"
-      break
-    end
-
-    self.player1 = Player.new(player1_username, player1_symbol)
-    self.player2 = Player.new(player2_username, player2_symbol)
-  end
-
-  def render_main
-    loop do
-      create_players
-
-      render_table
-      break
-    end
+    false
   end
 end

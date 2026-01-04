@@ -15,21 +15,21 @@ loop do
   case choice
   when "1"
     renderer.setup_players
-    
+
     loop do
       renderer.show_table
       renderer.get_move(game.current_player)
-      
+
       if game.winner?
         renderer.show_game_end("\n🎉 #{game.current_player.name} wins!")
         break
       end
-      
+
       if game.draw?
         renderer.show_game_end("\n🤝 It's a draw!")
         break
       end
-      
+
       game.switch_player
     end
   when "2"

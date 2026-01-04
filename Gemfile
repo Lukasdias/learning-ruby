@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 # gem "rails"
-gem 'colorize', '~> 1.1'
-gem 'tty-reader'
-gem 'tty-cursor'
+gem "colorize", "~> 1.1"
+gem "tty-cursor"
+gem "tty-reader"
 
-gem 'rubocop', '~> 1.82'
+gem "rubocop", "~> 1.82"
 
-gem 'rubocop-performance', require: false
+gem "rubocop-performance", require: false
